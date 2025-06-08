@@ -74,7 +74,7 @@ const About = () => {
         {/* Hero Section */}
         <div className="text-center mb-16 animate-fade-in">
           <img
-            src="/profile.png"
+            src="/pfp.png"
             alt="RB"
             className="w-32 h-32 rounded-full mx-auto mb-8 shadow-lg hover-lift"
             style={{ objectFit: 'cover', background: 'linear-gradient(to bottom right, #60c65a, #f2994a)' }}

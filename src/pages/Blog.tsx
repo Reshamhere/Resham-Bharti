@@ -78,7 +78,7 @@ const Blog = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold gradient-text mb-6 leading-loose!">Blog Posts</h1>
+          <h1 className="text-4xl md:text-5xl font-bold gradient-text mb-6 md:leading-relaxed">Blog Posts</h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Thoughts, tutorials, and discoveries from my journey in tech. 
             Use the search and filters below to find what interests you most.
