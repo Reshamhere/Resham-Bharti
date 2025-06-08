@@ -1,72 +1,115 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Book, Code, FileText, Github } from 'lucide-react';
+import { client } from '@/lib/sanity';
+
+interface SanityPost {
+  _id: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  date: string;
+  readTime: string;
+  tags?: string[];
+}
 
 const Index = () => {
-  const recentPosts = [
-    {
-      id: 1,
-      title: "Building a React Component Library",
-      excerpt: "A deep dive into creating reusable components with TypeScript and Storybook",
-      category: "Projects",
-      date: "2024-06-01",
-      readTime: "8 min read",
-      tags: ["React", "TypeScript", "Storybook"]
-    },
-    {
-      id: 2,
-      title: "Understanding React Server Components",
-      excerpt: "Exploring the new paradigm of server-side rendering in React 18",
-      category: "Learning Logs",
-      date: "2024-05-28",
-      readTime: "12 min read",
-      tags: ["React", "SSR", "Next.js"]
-    },
-    {
-      id: 3,
-      title: "Docker Best Practices for Developers",
-      excerpt: "Essential tips and tricks for containerizing your applications efficiently",
-      category: "Tutorials",
-      date: "2024-05-25",
-      readTime: "15 min read",
-      tags: ["Docker", "DevOps", "Containers"]
-    }
-  ];
+  const [recentPosts, setRecentPosts] = useState<SanityPost[]>([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const categories = [
-    {
-      name: "Learning Logs",
-      description: "Daily discoveries and insights",
-      icon: Book,
-      count: 24,
-      color: "bg-ghibli-green/10 text-ghibli-green border-ghibli-green/20"
-    },
-    {
-      name: "Projects",
-      description: "Things I've built and lessons learned",
-      icon: Code,
-      count: 12,
-      color: "bg-ghibli-sunset/10 text-ghibli-sunset border-ghibli-sunset/20"
-    },
-    {
-      name: "Tutorials",
-      description: "Step-by-step guides and how-tos",
-      icon: FileText,
-      count: 18,
-      color: "bg-ghibli-warm-brown/10 text-ghibli-warm-brown border-ghibli-warm-brown/20"
-    },
-    {
-      name: "Notes",
-      description: "Quick thoughts and references",
-      icon: FileText,
-      count: 35,
-      color: "bg-ghibli-sky/10 text-ghibli-sky border-ghibli-sky/20"
-    }
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch recent posts (limit to 3)
+        const postsQuery = `*[_type == "post"] | order(date desc)[0..2] {
+          _id,
+          title,
+          excerpt,
+          category,
+          date,
+          readTime,
+          tags
+        }`;
+        const posts = await client.fetch(postsQuery);
+        setRecentPosts(posts);
+
+        // Fetch categories with counts
+        const categoriesQuery = `*[_type == "post"] {
+          category
+        }`;
+        const categoryData = await client.fetch(categoriesQuery);
+        
+        // Calculate category counts
+        const categoryCounts = categoryData.reduce((acc, { category }) => {
+          acc[category] = (acc[category] || 0) + 1;
+          return acc;
+        }, {});
+
+        // Map to your category structure
+        const mappedCategories = [
+          { 
+            name: "Learning Logs", 
+            description: "Daily discoveries and insights",
+            icon: Book,
+            count: categoryCounts["Learning Logs"] || 0,
+            color: "bg-ghibli-green/10 text-ghibli-green border-ghibli-green/20"
+          },
+          {
+            name: "Projects",
+            description: "Things I've built and lessons learned",
+            icon: Code,
+            count: categoryCounts["Projects"] || 0,
+            color: "bg-ghibli-sunset/10 text-ghibli-sunset border-ghibli-sunset/20"
+          },
+          {
+            name: "Tutorials",
+            description: "Step-by-step guides and how-tos",
+            icon: FileText,
+            count: categoryCounts["Tutorials"] || 0,
+            color: "bg-ghibli-warm-brown/10 text-ghibli-warm-brown border-ghibli-warm-brown/20"
+          },
+          {
+            name: "Notes",
+            description: "Quick thoughts and references",
+            icon: FileText,
+            count: categoryCounts["Notes"] || 0,
+            color: "bg-ghibli-sky/10 text-ghibli-sky border-ghibli-sky/20"
+          }
+        ];
+
+        setCategories(mappedCategories);
+      } catch (err) {
+        setError('Failed to fetch data');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-red-500">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen">
@@ -125,7 +168,7 @@ const Index = () => {
                 </CardHeader>
                 <CardContent className="text-center">
                   <Badge variant="secondary" className="text-sm">
-                    {category.count} posts
+                    {category.count} {category.count === 1 ? 'post' : 'posts'}
                   </Badge>
                 </CardContent>
               </Card>
@@ -153,7 +196,7 @@ const Index = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {recentPosts.map((post, index) => (
-              <Card key={post.id} className={`hover-lift cursor-pointer group border-2 hover:border-primary/50 transition-all duration-300 animate-fade-in`} style={{ animationDelay: `${index * 0.1}s` }}>
+              <Card key={post._id} className={`hover-lift cursor-pointer group border-2 hover:border-primary/50 transition-all duration-300 animate-fade-in`} style={{ animationDelay: `${index * 0.1}s` }}>
                 <CardHeader>
                   <div className="flex items-center justify-between mb-2">
                     <Badge variant="secondary" className="text-xs">
@@ -171,7 +214,7 @@ const Index = () => {
                 <CardContent>
                   <div className="flex items-center justify-between">
                     <div className="flex flex-wrap gap-1">
-                      {post.tags.slice(0, 2).map((tag) => (
+                      {post.tags?.slice(0, 2).map((tag) => (
                         <Badge key={tag} variant="outline" className="text-xs">
                           {tag}
                         </Badge>
@@ -194,11 +237,11 @@ const Index = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Let's Connect & Learn Together</h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
             Join me on this journey of continuous learning and growth. Follow along for regular updates, 
-            insights, and the occasional bee-themed surprise!
+            insights, and the occasional bee-themed surprises!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="hover-lift">
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+              <a href="https://github.com/Reshamhere" target="_blank" rel="noopener noreferrer">
                 <Github className="mr-2 h-4 w-4" />
                 Follow on GitHub
               </a>
