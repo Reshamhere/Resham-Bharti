@@ -204,10 +204,10 @@ const Index = () => {
               <Link 
                 to={`/blog/${post.slug}`} 
                 key={post._id}
-                className="hover:no-underline" // Prevent link styling from affecting card
+                className="hover:no-underline h-full" // Prevent link styling from affecting card
               >
-              <Card key={post._id} className={`hover-lift cursor-pointer group border-2 hover:border-primary/50 transition-all duration-300 animate-fade-in`} style={{ animationDelay: `${index * 0.1}s` }}>
-                <CardHeader>
+              <Card key={post._id} className={`flex flex-col justify-between h-full hover-lift cursor-pointer group border-2 hover:border-primary/50 transition-all duration-300 animate-fade-in min-h-[280px]`} style={{ animationDelay: `${index * 0.1}s` }}>
+                <CardHeader className='flex flex-col justify-around h-full'>
                   <div className="flex items-center justify-between mb-2">
                     <Badge variant="secondary" className="text-xs">
                       {post.category}
@@ -216,14 +216,15 @@ const Index = () => {
                       {calculateReadTime(post.content)}
                     </span>
                   </div>
-                  <CardTitle className="group-hover:text-primary transition-colors leading-tight">
+                  <CardTitle className="group-hover:text-primary transition-colors leading-tight line-clamp-2">
                     {post.title}
                   </CardTitle>
-                  <CardDescription className="line-clamp-2">
+                  <CardDescription className="line-clamp-2 leading-re
+                  laxed">
                     {post.excerpt}
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="flex items-end justify-between mt-auto">
                   <div className="flex items-center justify-between">
                     <div className="flex flex-wrap gap-1">
                       {post.tags?.slice(0, 2).map((tag) => (
