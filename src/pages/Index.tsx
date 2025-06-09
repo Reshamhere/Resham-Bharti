@@ -6,11 +6,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Book, Code, FileText, Github } from 'lucide-react';
 import { client } from '@/lib/sanity';
+import { calculateReadTime } from '/Users/reshambharti/Downloads/Whispering Pixels/myblog/plugins/read-time.tsx';
+
 
 interface SanityPost {
   _id: string;
   title: string;
   excerpt: string;
+  content: string;
   category: string;
   date: string;
   readTime: string;
@@ -31,9 +34,9 @@ const Index = () => {
           _id,
           title,
           excerpt,
+          content,
           category,
           date,
-          readTime,
           tags
         }`;
         const posts = await client.fetch(postsQuery);
@@ -202,7 +205,9 @@ const Index = () => {
                     <Badge variant="secondary" className="text-xs">
                       {post.category}
                     </Badge>
-                    <span className="text-xs text-muted-foreground">{post.readTime}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {calculateReadTime(post.content)}
+                    </span>
                   </div>
                   <CardTitle className="group-hover:text-primary transition-colors leading-tight">
                     {post.title}

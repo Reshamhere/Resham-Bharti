@@ -8,6 +8,7 @@ import { getAllPosts } from '@/lib/sanity';
 import type { SanityPost } from '@/types/sanity';
 import { urlFor } from '@/lib/sanity';
 import { Link } from 'react-router-dom';
+import { calculateReadTime } from '/Users/reshambharti/Downloads/Whispering Pixels/myblog/plugins/read-time.tsx';
 
 
 const Blog = () => {
@@ -135,7 +136,9 @@ const Blog = () => {
                     </Badge>
                     <div className="flex items-center text-xs text-muted-foreground space-x-2">
                       <Clock className="h-3 w-3" />
-                      <span>{post.readTime}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {calculateReadTime(post.content)}
+                      </span>
                     </div>
                   </div>
                   

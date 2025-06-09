@@ -9,6 +9,9 @@ import { Button } from '@/components/ui/button';
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { calculateReadTime } from '/Users/reshambharti/Downloads/Whispering Pixels/myblog/plugins/read-time.tsx';
+
+
 
 interface SanityPost {
   _id: string;
@@ -107,7 +110,11 @@ const BlogPost = () => {
             </div>
             <div className="flex items-center gap-2">
               <Clock className="h-4 w-4" />
-              <span>{post.readTime}</span>
+              <span>
+                {post.readTime
+                  ? post.readTime
+                  : calculateReadTime(post.content)}
+              </span>
             </div>
           </div>
 

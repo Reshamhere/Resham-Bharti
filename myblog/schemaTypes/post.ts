@@ -1,5 +1,5 @@
-// studio/schemas/post.ts
 import { defineType, defineField } from 'sanity';
+import { calculateReadTime } from '../plugins/read-time';
 
 export default defineType({
   name: 'post',
@@ -60,7 +60,11 @@ export default defineType({
       name: 'readTime',
       title: 'Read Time',
       type: 'string',
-      validation: (Rule) => Rule.required(),
+      components: {
+        input: calculateReadTime as React.ComponentType<any>,
+      },
+      readOnly: true,
+      initialValue: '0 min read',
     }),
     defineField({
       name: 'tags',
