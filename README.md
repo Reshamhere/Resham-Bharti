@@ -1,73 +1,27 @@
-# Welcome to your Lovable project
+# ✨ Resham’s Personal Blog
 
-## Project info
+Welcome to my digital corner on the internet — a place where I document what I learn, build, and explore. From code snippets to creative experiments, this blog is both a tech journal and a timeline of my growth as a developer.
 
-**URL**: https://lovable.dev/projects/57ade146-c946-49e3-8238-6c7c731d2b90
+## 📌 What's Inside
 
-## How can I edit this code?
+- 🧠 Learning logs from daily dev discoveries  
+- 🛠️ Project breakdowns, design ideas, and architecture notes  
+- ✍️ Personal thoughts, tech rants, and the occasional poem  
+- 📚 Resources that helped me (and might help you too)
 
-There are several ways of editing your application.
+## 🚀 Tech Stack
 
-**Use Lovable**
+This blog is built with:
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/57ade146-c946-49e3-8238-6c7c731d2b90) and start prompting.
+- **[Vite](https://vitejs.dev/)** + **[React](https://react.dev/)** — for blazing-fast development and a modern frontend experience  
+- **[Tailwind CSS](https://tailwindcss.com/)** — to keep it stylish yet minimal  
+- **[Sanity CMS](https://www.sanity.io/)** — for structured content and real-time editing  
+- **[ShadCN/UI](https://ui.shadcn.com/)** — for a polished, accessible component base  
 
-Changes made via Lovable will be committed automatically to this repo.
+🌈 Design Philosophy
+Clean. Minimal. Personal. This blog is made to feel like a cozy dev journal — not too flashy, but full of heart (and code).
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/57ade146-c946-49e3-8238-6c7c731d2b90) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+With curiosity & code,  
+**— Resham Bharti**
