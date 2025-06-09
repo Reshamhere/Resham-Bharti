@@ -9,14 +9,27 @@ import type { SanityPost } from '@/types/sanity';
 import { urlFor } from '@/lib/sanity';
 import { Link } from 'react-router-dom';
 import { calculateReadTime } from '../../myblog/plugins/read-time';
-
+import { useSearchParams } from 'react-router-dom';
 
 const Blog = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [searchParams] = useSearchParams();
+  const initialCategory = searchParams.get('category') || 'All';
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [posts, setPosts] = useState<SanityPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const category = searchParams.get('category');
+    if (category) {
+      setSelectedCategory(category);
+    }
+  }, [searchParams]);
+
+  // useEffect(() => {
+  //   window.scrollTo({ top: 0, behavior: 'smooth' });
+  // }, [selectedCategory]);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -104,7 +117,16 @@ const Blog = () => {
                 key={category}
                 variant={selectedCategory === category ? "default" : "outline"}
                 size="sm"
-                onClick={() => setSelectedCategory(category)}
+                onClick={() => {
+                  setSelectedCategory(category);
+                  const newSearchParams = new URLSearchParams(searchParams);
+                  if (category === 'All') {
+                    newSearchParams.delete('category');
+                  } else {
+                    newSearchParams.set('category', category);
+                  }
+                  window.history.pushState({}, '', `/blog?${newSearchParams.toString()}`);
+                }}
                 className="hover-lift"
               >
                 {category}

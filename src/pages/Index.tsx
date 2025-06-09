@@ -163,19 +163,31 @@ const Index = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {categories.map((category) => (
-              <Card key={category.name} className="hover-lift cursor-pointer group border-2 hover:border-primary/50 transition-all duration-300">
-                <CardHeader className="text-center">
-                  <div className={`w-12 h-12 mx-auto rounded-lg ${category.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                    <category.icon className="h-6 w-6" />
-                  </div>
-                  <CardTitle className="group-hover:text-primary transition-colors">{category.name}</CardTitle>
-                  <CardDescription>{category.description}</CardDescription>
-                </CardHeader>
-                <CardContent className="text-center">
-                  <Badge variant="secondary" className="text-sm">
-                    {category.count} {category.count === 1 ? 'post' : 'posts'}
-                  </Badge>
-                </CardContent>
+              <Card
+                key={category.name}
+                className="hover-lift cursor-pointer group border-2 hover:border-primary/50 transition-all duration-300"
+              >
+                <Link
+                  to={`/blog?category=${encodeURIComponent(category.name)}`}
+                  className="block hover:no-underline h-full"
+                >
+                  <CardHeader className="text-center">
+                    <div
+                      className={`w-12 h-12 mx-auto rounded-lg ${category.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
+                    >
+                      <category.icon className="h-6 w-6" />
+                    </div>
+                    <CardTitle className="group-hover:text-primary transition-colors">
+                      {category.name}
+                    </CardTitle>
+                    <CardDescription className="text-muted-foreground text-sm text-center line-clamp-2 min-h-[2.4rem]">{category.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="text-center">
+                    <Badge variant="secondary" className="text-sm">
+                      {category.count} {category.count === 1 ? 'post' : 'posts'}
+                    </Badge>
+                  </CardContent>
+                </Link>
               </Card>
             ))}
           </div>
