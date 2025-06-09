@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 type Theme = 'dark' | 'light' | 'system';
@@ -27,26 +26,38 @@ export function ThemeProvider({
   storageKey = 'vite-ui-theme',
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
-  );
+  const getSystemTheme = () =>
+    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window === 'undefined') return defaultTheme;
+    return (localStorage.getItem(storageKey) as Theme) || defaultTheme;
+  });
+
+  // Listen for system theme changes if theme is 'system'
+  useEffect(() => {
+    if (theme !== 'system') return;
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const handler = () => {
+      const systemTheme = media.matches ? 'dark' : 'light';
+      document.documentElement.classList.remove('light', 'dark');
+      document.documentElement.classList.add(systemTheme);
+    };
+    media.addEventListener('change', handler);
+    handler();
+    return () => media.removeEventListener('change', handler);
+  }, [theme]);
+
+  // Apply theme class to <html>
   useEffect(() => {
     const root = window.document.documentElement;
-
     root.classList.remove('light', 'dark');
-
     if (theme === 'system') {
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
-        .matches
-        ? 'dark'
-        : 'light';
-
+      const systemTheme = getSystemTheme();
       root.classList.add(systemTheme);
-      return;
+    } else {
+      root.classList.add(theme);
     }
-
-    root.classList.add(theme);
   }, [theme]);
 
   const value = {
@@ -66,9 +77,7 @@ export function ThemeProvider({
 
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext);
-
   if (context === undefined)
     throw new Error('useTheme must be used within a ThemeProvider');
-
   return context;
 };

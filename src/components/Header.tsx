@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -66,7 +65,7 @@ const Header = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center space-x-2">
+          <div className="md:hidden flex items-center space-x-4">
             <Button
               variant="ghost"
               size="sm"
