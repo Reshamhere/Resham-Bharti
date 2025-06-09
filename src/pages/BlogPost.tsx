@@ -11,10 +11,6 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { calculateReadTime } from '../../myblog/plugins/read-time';
 
-
-
-
-
 interface SanityPost {
   _id: string;
   title: string;

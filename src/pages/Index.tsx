@@ -18,6 +18,7 @@ interface SanityPost {
   date: string;
   readTime: string;
   tags?: string[];
+  slug: string;
 }
 
 const Index = () => {
@@ -37,7 +38,8 @@ const Index = () => {
           content,
           category,
           date,
-          tags
+          tags,
+          "slug": slug.current,
         }`;
         const posts = await client.fetch(postsQuery);
         setRecentPosts(posts);
@@ -199,6 +201,11 @@ const Index = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {recentPosts.map((post, index) => (
+              <Link 
+                to={`/blog/${post.slug}`} 
+                key={post._id}
+                className="hover:no-underline" // Prevent link styling from affecting card
+              >
               <Card key={post._id} className={`hover-lift cursor-pointer group border-2 hover:border-primary/50 transition-all duration-300 animate-fade-in`} style={{ animationDelay: `${index * 0.1}s` }}>
                 <CardHeader>
                   <div className="flex items-center justify-between mb-2">
@@ -231,6 +238,7 @@ const Index = () => {
                   </div>
                 </CardContent>
               </Card>
+            </Link>
             ))}
           </div>
         </div>
