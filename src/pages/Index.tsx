@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Book, Code, FileText, Github } from 'lucide-react';
 import { client } from '@/lib/sanity';
-import { calculateReadTime } from '/Users/reshambharti/Downloads/Whispering Pixels/myblog/plugins/read-time.tsx';
+import { calculateReadTime } from '../../myblog/plugins/read-time';
 
 
 interface SanityPost {

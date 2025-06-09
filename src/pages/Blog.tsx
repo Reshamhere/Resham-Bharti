@@ -8,7 +8,7 @@ import { getAllPosts } from '@/lib/sanity';
 import type { SanityPost } from '@/types/sanity';
 import { urlFor } from '@/lib/sanity';
 import { Link } from 'react-router-dom';
-import { calculateReadTime } from '/Users/reshambharti/Downloads/Whispering Pixels/myblog/plugins/read-time.tsx';
+import { calculateReadTime } from '../../myblog/plugins/read-time';
 
 
 const Blog = () => {

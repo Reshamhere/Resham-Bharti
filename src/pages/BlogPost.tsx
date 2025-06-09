@@ -9,7 +9,9 @@ import { Button } from '@/components/ui/button';
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { calculateReadTime } from '/Users/reshambharti/Downloads/Whispering Pixels/myblog/plugins/read-time.tsx';
+import { calculateReadTime } from '../../myblog/plugins/read-time';
+
+
 
 
 
