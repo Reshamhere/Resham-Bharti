@@ -18,7 +18,8 @@ This blog is built with:
 - **[Sanity CMS](https://www.sanity.io/)** — for structured content and real-time editing  
 - **[ShadCN/UI](https://ui.shadcn.com/)** — for a polished, accessible component base  
 
-🌈 Design Philosophy
+## 🌈 Design Philosophy
+
 Clean. Minimal. Personal. This blog is made to feel like a cozy dev journal — not too flashy, but full of heart (and code).
 
 ---
