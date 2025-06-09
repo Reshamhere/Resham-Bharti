@@ -123,69 +123,82 @@ const Blog = () => {
         {/* Posts Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredPosts.map((post, index) => (
-            <Card 
-              key={post._id} 
-              className="hover-lift cursor-pointer group border-2 hover:border-primary/50 transition-all duration-300 animate-fade-in"
+            <Card
+              key={post._id}
+              className="hover-lift cursor-pointer group border-2 hover:border-primary/50 transition-all duration-300 animate-fade-in h-full flex flex-col"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <Link to={`/blog/${post.slug}`} className="block">
-                <CardHeader>
-                  <div className="flex items-center justify-between mb-3">
-                    <Badge variant="secondary" className="text-xs">
-                      {post.category}
-                    </Badge>
-                    <div className="flex items-center text-xs text-muted-foreground space-x-2">
-                      <Clock className="h-3 w-3" />
-                      <span className="text-xs text-muted-foreground">
-                        {calculateReadTime(post.content)}
-                      </span>
+              <Link to={`/blog/${post.slug}`} className="block h-full flex flex-col">
+                {/* Top: Image */}
+                <div className="relative h-48 rounded-t-md overflow-hidden bg-muted/20">
+                  {post.mainImage ? (
+                    <img
+                      src={urlFor(post.mainImage).url()}
+                      alt={post.title}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center w-full h-full text-sm text-muted-foreground">
+                      No image available
                     </div>
-                  </div>
-                  
-                  <CardTitle className="group-hover:text-primary transition-colors leading-tight">
-                    {post.title}
-                  </CardTitle>
-                  
-                  <CardDescription className="line-clamp-3 leading-relaxed">
-                    {post.excerpt}
-                  </CardDescription>
-                </CardHeader>
-                
-                <CardContent>
-                  <div className="space-y-4">
-                    {post.mainImage && (
-                      <div className="relative aspect-video rounded-md overflow-hidden">
-                        <img
-                          src={urlFor(post.mainImage).url()}
-                          alt={post.title}
-                          className="w-full h-full object-cover"
-                        />
+                  )}
+                </div>
+
+                {/* Middle: Content */}
+                <div className="flex-1 flex flex-col justify-around">
+                  <CardHeader>
+                    <div className="flex items-center justify-between mb-3">
+                      <Badge variant="secondary" className="text-xs">
+                        {post.category}
+                      </Badge>
+                      <div className="flex items-center text-xs text-muted-foreground space-x-2">
+                        <Clock className="h-3 w-3" />
+                        <span className="text-xs text-muted-foreground">
+                          {calculateReadTime(post.content)}
+                        </span>
                       </div>
-                    )}
-                    
-                    <div className="flex flex-wrap gap-1">
-                      {post.tags?.map((tag) => (
-                        <Badge key={tag} variant="outline" className="text-xs">
-                          <Tag className="h-2 w-2 mr-1" />
-                          {tag}
-                        </Badge>
-                      ))}
                     </div>
-                    
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <Calendar className="h-3 w-3 mr-1" />
-                      {new Date(post.date).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}
+
+                    <CardTitle className="group-hover:text-primary transition-colors leading-tight line-clamp-2">
+                      {post.title}
+                    </CardTitle>
+
+                    <CardDescription className="line-clamp-3 leading-relaxed">
+                      {post.excerpt}
+                    </CardDescription>
+                  </CardHeader>
+
+                  {/* Bottom: Tags and Date */}
+                  <CardContent>
+                    <div className="flex flex-col gap-4 mt-auto">
+                      {/* Tags */}
+                      <div className="flex flex-wrap gap-1">
+                        {post.tags?.map((tag) => (
+                          <Badge key={tag} variant="outline" className="text-xs">
+                            <Tag className="h-2 w-2 mr-1" />
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+
+                      {/* Date */}
+                      <div className="flex items-center text-sm text-muted-foreground">
+                        <Calendar className="h-3 w-3 mr-1" />
+                        {new Date(post.date).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        })}
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
+                  </CardContent>
+                </div>
               </Link>
             </Card>
           ))}
         </div>
+
+
 
         {/* Empty State */}
         {filteredPosts.length === 0 && (
